@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,  
   StyleSheet,
+  Linking,
   Platform,
   TouchableWithoutFeedback,
 } from 'react-native'
@@ -100,8 +101,15 @@ const IterableInboxMessageDisplay = ({
                originWhiteList={['*']}
                source={{ html: inAppContent.html }} 
                style={{ width: contentWidth }}
-               onMessage={(event) => handleHTMLMessage(event)}
+               onMessage={(event: any) => handleHTMLMessage(event)}
                injectedJavaScript={JS}
+               onShouldStartLoadWithRequest={(event: any) => {
+                  if(event.url.slice(0, 4) === 'http') {
+                     Linking.openURL(event.url)
+                     return false
+                  }
+                  return true   
+               }}
             />
          </ScrollView> 
       </View>
