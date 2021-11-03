@@ -13,7 +13,10 @@ import {
    InboxRowViewModel,
    IterableInboxClickableRow,
    IterableInboxCustomizations,
-   IterableInboxDataModel
+   IterableInboxDataModel,
+   IterableInAppDeleteSource,
+   IterableInAppLocation,
+   Iterable
 } from '.'
 
 type SwipeableRowProps = {
@@ -69,7 +72,10 @@ const IterableInboxSwipeableRow = ({
          toValue: {x, y: 0},
          duration: FORCING_DURATION,
          useNativeDriver: false   
-      }).start(() => deleteRow(rowViewModel.inAppMessage.messageId))
+      }).start(() => {
+         deleteRow(rowViewModel, rowViewModel.inAppMessage.messageId)
+         Iterable.inAppConsume(rowViewModel.inAppMessage, IterableInAppLocation.inbox, IterableInAppDeleteSource.inboxSwipe)
+      })
    }
    
    const resetPosition = () => {

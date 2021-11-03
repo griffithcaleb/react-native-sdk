@@ -13,9 +13,19 @@ import {
 import { WebView } from 'react-native-webview'
 import Icon from 'react-native-vector-icons/Ionicons'
 
-import { InboxRowViewModel, IterableHtmlInAppContent, IterableEdgeInsets } from '.'
-import { Iterable, IterableAction, IterableActionSource, IterableActionContext } from './Iterable'
-import { IterableInAppLocation, IterableInAppCloseSource } from './IterableInAppClasses'
+import {
+   InboxRowViewModel,
+   IterableAction,
+   IterableActionContext,
+   IterableHtmlInAppContent, 
+   IterableEdgeInsets,
+   IterableInAppDeleteSource,
+   IterableInAppCloseSource,
+   IterableInAppLocation,
+   Iterable
+} from '.'
+
+import { IterableActionSource } from './Iterable'
 
 type MessageDisplayProps = {
    rowViewModel: InboxRowViewModel,
@@ -77,11 +87,15 @@ const IterableInboxMessageDisplay = ({
       Iterable.trackInAppClick(rowViewModel.inAppMessage, IterableInAppLocation.inbox, url)
       
       if(url === 'iterable://delete') {
-         deleteRow(rowViewModel.inAppMessage.messageId)
+         deleteRow(rowViewModel, rowViewModel.inAppMessage.messageId)
+
+         Iterable.inAppConsume(rowViewModel.inAppMessage, IterableInAppLocation.inbox, IterableInAppDeleteSource.inboxSwipe)
+
          returnToInbox()
       } else if(url === 'iterable://dismiss') {
          returnToInbox()
-         Iterable.trackInAppClose(rowViewModel.inAppMessage, IterableInAppLocation.inbox, IterableInAppCloseSource.link, 'iterable://dismiss')
+
+         Iterable.trackInAppClose(rowViewModel.inAppMessage, IterableInAppLocation.inbox, IterableInAppCloseSource.link, "")
       } else {
          if(Iterable.savedConfig.urlHandler && Iterable.savedConfig.urlHandler(url, context)) {
             Iterable.savedConfig.urlHandler(url, context)
@@ -105,7 +119,7 @@ const IterableInboxMessageDisplay = ({
             <TouchableWithoutFeedback 
                onPress={() => {
                   returnToInbox()
-                  Iterable.trackInAppClose(rowViewModel.inAppMessage, IterableInAppLocation.inbox, IterableInAppCloseSource.back, 'iterable://dismiss')
+                  Iterable.trackInAppClose(rowViewModel.inAppMessage, IterableInAppLocation.inbox, IterableInAppCloseSource.back, "")
                }}>
                <Icon 
                   name="ios-arrow-back"

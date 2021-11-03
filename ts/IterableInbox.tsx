@@ -15,7 +15,7 @@ import {
    IterableInboxMessageList,
    IterableInboxEmptyState,
    InboxRowViewModel,
-   IterableInAppDeleteSource
+   IterableInAppDeleteSource,
 } from '.'
 
 import IterableInboxMessageDisplay from './IterableInboxMessageDisplay'
@@ -134,7 +134,7 @@ const IterableInbox = ({
       slideLeft()
    }
 
-   const deleteRow = (messageId: string) => {
+   const deleteRow = (rowViewModel: InboxRowViewModel, messageId: string) => {
       inboxDataModel.deleteItemById(messageId, IterableInAppDeleteSource.inboxSwipe)
       fetchInboxMessages()
    }
@@ -152,7 +152,7 @@ const IterableInbox = ({
                rowViewModel={selectedRowViewModel}
                inAppContentPromise={getHtmlContentForRow(selectedRowViewModel.inAppMessage.messageId)}
                returnToInbox={() => returnToInbox()}
-               deleteRow={(messageId: string) => deleteRow(messageId)}
+               deleteRow={(rowViewModel: InboxRowViewModel, messageId: string) => deleteRow(rowViewModel, messageId)}
                contentWidth={width}
                isPortrait={isPortrait}
             /> : null
@@ -171,7 +171,7 @@ const IterableInbox = ({
                   rowViewModels={rowViewModels}
                   customizations={customizations}
                   messageListItemLayout={messageListItemLayout}
-                  deleteRow={(messageId: string) => deleteRow(messageId)}
+                  deleteRow={(rowViewModel: InboxRowViewModel, messageId: string) => deleteRow(rowViewModel, messageId)}
                   handleMessageSelect={(messageId: string, index: number) => handleMessageSelect(messageId, index, rowViewModels)}
                   contentWidth={width}
                   isPortrait={isPortrait}
