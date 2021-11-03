@@ -89,7 +89,7 @@ const IterableInboxMessageDisplay = ({
       if(url === 'iterable://delete') {
          deleteRow(rowViewModel, rowViewModel.inAppMessage.messageId)
 
-         Iterable.inAppConsume(rowViewModel.inAppMessage, IterableInAppLocation.inbox, IterableInAppDeleteSource.inboxSwipe)
+         Iterable.inAppConsume(rowViewModel.inAppMessage, IterableInAppLocation.inbox, IterableInAppDeleteSource.deleteButton)
 
          returnToInbox()
       } else if(url === 'iterable://dismiss') {
