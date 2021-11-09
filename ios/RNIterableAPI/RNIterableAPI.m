@@ -66,7 +66,7 @@ RCT_EXTERN_METHOD(trackInAppClick: (nonnull NSString *) messageId
 RCT_EXTERN_METHOD(trackInAppClose: (nonnull NSString *) messageId
                   location: (nonnull NSNumber *) location
                   source: (nonnull NSNumber *) source
-                  clickedUrl: (NSString *) clickedUrl)
+                  clickedUrl: (nonnull NSString *) clickedUrl)
 
 RCT_EXTERN_METHOD(inAppConsume: (nonnull NSString *) messageId
                   location: (nonnull NSNumber *) location
@@ -78,7 +78,9 @@ RCT_EXTERN_METHOD(trackEvent: (nonnull NSString *) name
 RCT_EXTERN_METHOD(updateUser: (nonnull NSDictionary *) dataFields
                   mergeNestedObjects: (BOOL) mergeNestedObjects)
 
-RCT_EXTERN_METHOD(updateEmail: (nonnull NSString *) email)
+RCT_EXTERN_METHOD(updateEmail: (nonnull NSString *) email
+                  resolver: (RCTPromiseResolveBlock) resolve
+                  rejecter: (RCTPromiseRejectBlock) reject)
 
 RCT_EXTERN_METHOD(handleAppLink: (nonnull NSString *) appLink
                   resolver: (RCTPromiseResolveBlock) resolve
